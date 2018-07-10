@@ -1,0 +1,131 @@
+<doctype <!DOCTYPE html>
+    <html>
+
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Rock Paper Scissors Lizard Spock</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+            crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+        <link rel="stylesheet" type="text/css" href="Assets/slick/slick.css" />
+        <!-- // Add the new slick-theme.css if you want the default styling -->
+        <link rel="stylesheet" type="text/css" href="Assets/slick/slick-theme.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="Assets/CSS/main.css" />
+        <link href="https://fonts.googleapis.com/css?family=Arvo:700i|Share" rel="stylesheet">
+
+    </head>
+
+    <body>
+
+        <div class="container">
+            <div class="row">
+                <div class="col banner">
+                    <br>
+                    <center>
+                        <h1>ROCK PAPER SCISSORS LIZARD SPOCK!</h1>
+                    </center>
+                    <!-- <center><img src="Assets/Images/rpsls2.png"></center> -->
+                    <br>
+                </div>
+            </div>
+
+            <div class="row input">
+                <div class="col-md-5" id="rulesSelected">
+                    <div class="slider-for">
+                        <div class="centeredimg">
+                            <img class="img-responsive" src="Assets/Images/rock_top.jpg">
+                        </div>
+                        <div class="centeredimg">
+                            <img class="img-responsive" src="Assets/Images/paper_top.jpg">
+                        </div>
+                        <div class="centeredimg">
+                            <img class="img-responsive" src="Assets/Images/scissors_top.jpg">
+                        </div>
+                        <div class="centeredimg">
+                            <img class="img-responsive" src="Assets/Images/lizard_top.jpg">
+                        </div>
+                        <div class="centeredimg">
+                            <img class="img-responsive" src="Assets/Images/spock_top.jpg">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2" id="gameInfo">
+                    <div id="formgather">
+                        <form>
+                            <div class="form-group">
+                                <label for="player-name">Your Name</label>
+                                <input class="form-control" id="user" type="text" placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label for="Opponent-email">Opponent's email</label>
+                                <input class="form-control" id="opponentemail" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="gameid">Game Id</label>
+                                <input class="form-control" id="gameid" type="number">
+                            </div>
+                            <button class="btn btn-primary" id="invite" type="submit">Invite</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-5" id="opponentSelected">
+                </div>
+            </div>
+            <br>
+            <div class="row input">
+                <div class="col-md-6 centeredimg" id="player1">
+                    <div class="slider" id="selectedplay">
+                        <div>
+                            <img src="Assets/Images/rock_s.jpeg">
+                        </div>
+                        <div>
+                            <img src="Assets/Images/paper_s.jpeg">
+                        </div>
+                        <div>
+                            <img src="Assets/Images/scissors_s.jpeg">
+                        </div>
+                        <div>
+                            <img src="Assets/Images/lizard_s.jpeg">
+                        </div>
+                        <div>
+                            <img src="Assets/Images/spock_s.jpeg">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary btn-lg btn-block" id="playButton">Commit and Play</button>
+                </div>
+                <div class="col-md-6" id="opponents">
+
+                </div>
+
+            </div>
+
+
+
+            <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
+            <script>
+                // Initialize Firebase
+                var config = {
+                    apiKey: "AIzaSyAHEnRk9Mf10TeMRiVge0SCs9s_0dzvZaU",
+                    authDomain: "rpsls-9f308.firebaseapp.com",
+                    databaseURL: "https://rpsls-9f308.firebaseio.com",
+                    projectId: "rpsls-9f308",
+                    storageBucket: "rpsls-9f308.appspot.com",
+                    messagingSenderId: "1011502824266"
+                };
+                firebase.initializeApp(config);
+            </script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+            <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script> -->
+            <script src="Assets/JS/logic.js"></script>
+            <script type="text/javascript" src="Assets/slick/slick.min.js"></script>
+
+
+
+    </body>
+
+    </html>
