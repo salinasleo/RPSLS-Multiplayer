@@ -4,7 +4,6 @@ body {
     background-size: auto;
     margin: auto;
     font-weight: bolder;
-    color: floralwhite;
     font-family: 'Arvo', serif;
 }
 
@@ -15,14 +14,14 @@ body {
 }
 
 #selectedplay{
-    height: 200px;
+    height: 180px;
     display: block;
     margin-left: auto;
     margin-right: auto ;
 }
 
 #opponents{
-    height: 200px;
+    height: 180px;
 }
 
 #rulesSelected{

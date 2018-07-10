@@ -23,9 +23,16 @@
         <div class="container">
             <div class="row">
                 <div class="col banner">
-                    <br>
+
                     <center>
                         <h1>ROCK PAPER SCISSORS LIZARD SPOCK!</h1>
+                        <form>
+                            <div class="form-group row">
+                                <button class="btn btn-secondary col-sm-5" id="invite" type="submit">Generate URL to share with your opponent:</button>
+                                <div class="col-sm-7">
+                                    <input type="text" readonly class="form-control" id="gameid" value="">
+                                </div>
+                            </div>
                     </center>
                     <!-- <center><img src="Assets/Images/rpsls2.png"></center> -->
                     <br>
@@ -57,17 +64,12 @@
                         <form>
                             <div class="form-group">
                                 <label for="player-name">Your Name</label>
-                                <input class="form-control" id="user" type="text" placeholder="">
+                                <input class="form-control" id="user" type="text" placeholder="" value="">
                             </div>
                             <div class="form-group">
-                                <label for="Opponent-email">Opponent's email</label>
-                                <input class="form-control" id="opponentemail" type="text">
+                                <label for="Opponent-name">Opponent</label>
+                                <input class="form-control" id="opponent" type="text" readonly value="">
                             </div>
-                            <div class="form-group">
-                                <label for="gameid">Game Id</label>
-                                <input class="form-control" id="gameid" type="number">
-                            </div>
-                            <button class="btn btn-primary" id="invite" type="submit">Invite</button>
                         </form>
                     </div>
                 </div>
@@ -96,7 +98,9 @@
                     </div>
                     <button type="button" class="btn btn-secondary btn-lg btn-block" id="playButton">Commit and Play</button>
                 </div>
-                <div class="col-md-6" id="opponents">
+                <div class="col-md-1" id="EMPTYDIV">
+                    </div>
+                <div class="col-md-5" id="opponents">
 
                 </div>
 

@@ -40,6 +40,22 @@ $(document).ready(function(){
         initialSlide: 4,
         asNavFor: '.slider'
       });
+
+      dataRef.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
+        if  (parsedUrl.searchParams.get("id") > 0) 
+            {        
+                console.log("invited to play game id: " + parsedUrl.searchParams.get("id"));
+                console.log("you are player number: " + parsedUrl.searchParams.get("player"));
+                player = parsedUrl.searchParams.get("player");
+                inplay();
+        }
+        else {
+            player=1;
+            console.log("firebase last game id is :" + snapshot.val().gameid);
+        newgameid=snapshot.val().gameid + 1;
+        console.log("new game id will be: " + newgameid);
+        }
+          });    
     });
 
 
@@ -47,7 +63,9 @@ $(document).ready(function(){
     var recordeduser;
     var parsedUrl = new URL(window.location.href);
     var gameidnum=parsedUrl.searchParams.get("id"); 
-    var opponent = decodeURIComponent(parsedUrl.searchParams.get("opponent"));
+    var opponent = decodeURIComponent(parsedUrl.searchParams.get("name"));
+    var dataRef =firebase.database();
+
     console.log(gameidnum);
     console.log(opponent);
 
@@ -63,24 +81,37 @@ $(document).ready(function(){
     $("#invite").on("click", function(event) {
         // This line prevents the page from refreshing when a user hits "enter".
         event.preventDefault();
+        // the one who invites will be player 1
         gameinfo();
     });
 
+    var gameidnum=1;
+    var newgameid;
+    var player;
 
     function gameinfo() {
         
        
         console.log("ouch");
         user = $("#user").val().trim();
-        gameidnum = $("#gameid").val().trim();
         localStorage.setItem("name", user);
         localStorage.setItem("gameid", gameidnum);
         recordeduser=localStorage.getItem("name");
         console.log("submitted user" + user);
         console.log("recorded user" + recordeduser);
         $('#user').attr("placeholder",user);
-        var urlShare = window.location.href + "?id=" + gameidnum + "&opponent=" + encodeURIComponent(user);
-        console.log(urlShare);
+ 
+
+        dataRef.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
+            // Change the HTML to reflect
+            console.log("firebase last game id is :" + snapshot.val().gameid);
+            newgameid=snapshot.val().gameid + 1;
+            console.log("new game id will be: " + newgameid);
+            urlShare = window.location.href + "?id=" + newgameid + "&player=2" + "&name=" + encodeURIComponent(user);
+            $("#gameid").attr("value",urlShare);
+              });    
+
+          
 
     };
 
@@ -106,12 +137,14 @@ $(document).on("click", '#playButton', commit);
 function commit(){
 
     console.log(playerSelection);
-    database.ref().push({
+    dataRef.ref().push({
         played: playerSelection, 
-        player: user, 
+        playername: user, 
+        player: player,
         gameid: gameidnum,
         dateAdded: firebase.database.ServerValue.TIMESTAMP
       });
+      gameidnum=+1;
 
 // $('.slider').slick('unslick');
 $('.slider').remove();
@@ -133,4 +166,10 @@ if (playerSelection===4) {
 };
 };
 
-var database = firebase.database();
+
+function inplay(){
+
+ $("#opponent").attr("value",opponent);
+ $("#opponentSelected").append("<div class='jumbotron'> <h2 class='text-center'>YOUR OPPONENT HAS JOINED, WAITING ON PLAY!</h2></div>");
+ $("#opponents").append("<div class='card'><div class='card-header'>Tash Talk Window:</div> <div class='card-body'><p class='card-text'><br><br><br><br></div></div>");
+};
