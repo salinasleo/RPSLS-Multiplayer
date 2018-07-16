@@ -41,28 +41,28 @@ $(document).ready(function(){
         asNavFor: '.slider'
       });
 
+      if  (parsedUrl.searchParams.get("id") > 0) 
+      {        
+          console.log("invited to play game id: " + parsedUrl.searchParams.get("id"));
+          console.log("you are player number: " + parsedUrl.searchParams.get("player"));
+          player = parseInt(parsedUrl.searchParams.get("player"));
+          gameidnum=parseInt(parsedUrl.searchParams.get("id")); 
+          inplay();
+  }
+  else {
+      player=1;
       dataRef.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
-        if  (parsedUrl.searchParams.get("id") > 0) 
-            {        
-                console.log("invited to play game id: " + parsedUrl.searchParams.get("id"));
-                console.log("you are player number: " + parsedUrl.searchParams.get("player"));
-                player = parsedUrl.searchParams.get("player");
-                inplay();
-        }
-        else {
-            player=1;
-            console.log("firebase last game id is :" + snapshot.val().gameid);
-        newgameid=snapshot.val().gameid + 1;
-        console.log("new game id will be: " + newgameid);
-        }
-          });    
-    });
+        console.log("firebase last game id is :" + snapshot.val().gameid);
+        gameidnum=snapshot.val().gameid + 1;
+        console.log("new game id will be: " + gameidnum);
+        });    
+    }});
 
 
     var user;
     var recordeduser;
     var parsedUrl = new URL(window.location.href);
-    var gameidnum=parsedUrl.searchParams.get("id"); 
+    var gameidnum; 
     var opponent = decodeURIComponent(parsedUrl.searchParams.get("name"));
     var dataRef =firebase.database();
 
@@ -88,13 +88,20 @@ $(document).ready(function(){
     var gameidnum=1;
     var newgameid;
     var player;
+    var user;
+
 
     function gameinfo() {
         
        
         console.log("ouch");
         user = $("#user").val().trim();
+        console.log("submitted user" + user);
         localStorage.setItem("name", user);
+        if (user == "") {
+             alert("You must first enter a user name to generate game URL or to play") ; 
+             return;
+        }
         localStorage.setItem("gameid", gameidnum);
         recordeduser=localStorage.getItem("name");
         console.log("submitted user" + user);
@@ -107,7 +114,7 @@ $(document).ready(function(){
             console.log("firebase last game id is :" + snapshot.val().gameid);
             newgameid=snapshot.val().gameid + 1;
             console.log("new game id will be: " + newgameid);
-            urlShare = window.location.href + "?id=" + newgameid + "&player=2" + "&name=" + encodeURIComponent(user);
+            urlShare = window.location.href + "id=" + newgameid + "&player=2" + "&name=" + encodeURIComponent(user);
             $("#gameid").attr("value",urlShare);
               });    
 
@@ -135,9 +142,14 @@ $('.slider').on('beforeChange', function(event, slick, currentSlide, nextSlide){
 $(document).on("click", '#playButton', commit);
 
 function commit(){
+    user = $("#user").val().trim();
+    if (user == "" || user == null) {
+        alert("You must first enter a user name to generate game URL or to play") ; 
+        return;
+   }
 
     console.log(playerSelection);
-    dataRef.ref().push({
+    dataRef.ref(gameidnum).child(player).set({
         played: playerSelection, 
         playername: user, 
         player: player,
@@ -145,24 +157,25 @@ function commit(){
         dateAdded: firebase.database.ServerValue.TIMESTAMP
       });
       gameidnum=+1;
+      whoWon();
 
 // $('.slider').slick('unslick');
 $('.slider').remove();
 $("#playButton").css("pointer-events", "none");
 if (playerSelection===0) { 
-    $('#player1').prepend("<div id='selectedplay'><img src='Assets/Images/rock_s.jpeg'></div>");
+    $('#player1').prepend("<div id='selectedplay'><img class='centeredimg' src='Assets/Images/rock_s.jpeg'></div>");
 };
 if (playerSelection===1) { 
-    $('#player1').prepend("<div id='selectedplay'><img src='Assets/Images/paper_s.jpeg'></div>");
+    $('#player1').prepend("<div id='selectedplay'><img  class='centeredimg' src='Assets/Images/paper_s.jpeg'></div>");
 };
 if (playerSelection===2) { 
-    $('#player1').prepend("<div id='selectedplay'><img src='Assets/Images/scissors_s.jpeg'></div>");
+    $('#player1').prepend("<div id='selectedplay'><img  class='centeredimg' src='Assets/Images/scissors_s.jpeg'></div>");
 };
 if (playerSelection===3) { 
-    $('#player1').prepend("<div id='selectedplay'><img src='Assets/Images/lizard_s.jpeg'></div>");
+    $('#player1').prepend("<div id='selectedplay'><img  class='centeredimg' src='Assets/Images/lizard_s.jpeg'></div>");
 };
 if (playerSelection===4) { 
-    $('#player1').prepend("<div id='selectedplay'><img src='Assets/Images/spock_s.jpeg'></div>");
+    $('#player1').prepend("<div id='selectedplay'><img  class='centeredimg' src='Assets/Images/spock_s.jpeg'></div>");
 };
 };
 
@@ -171,5 +184,27 @@ function inplay(){
 
  $("#opponent").attr("value",opponent);
  $("#opponentSelected").append("<div class='jumbotron'> <h2 class='text-center'>YOUR OPPONENT HAS JOINED, WAITING ON PLAY!</h2></div>");
- $("#opponents").append("<div class='card'><div class='card-header'>Tash Talk Window:</div> <div class='card-body'><p class='card-text'><br><br><br><br></div></div>");
+ $("#opponents").append("<div class='card'><div class='card-header'>Trash Talk Window:</div> <div class='card-body'><p class='card-text'><br><br><br><br><br><br></div></div>");
 };
+
+
+function copyFunction() {
+    event.preventDefault();
+    /* Get the text field */
+    var copyText = document.getElementById("gameid");
+    /* Select the text field */
+    copyText.select();
+    /* Copy the text inside the text field */
+    document.execCommand("copy");
+    /* Alert the copied text */
+    console.log("Copied the text: " + copyText.value);
+  }
+
+function whoWon() {
+
+    var Ref = firebase.database().ref(gameidnum + '/player');
+    Ref.on('value', function(snapshot) {
+      console.log("played was " + snapshot.val().played);
+    });
+};
+

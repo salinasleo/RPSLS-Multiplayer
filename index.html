@@ -29,37 +29,51 @@
                         <form>
                             <div class="form-group row">
                                 <button class="btn btn-secondary col-sm-5" id="invite" type="submit">Generate URL to share with your opponent:</button>
-                                <div class="col-sm-7">
+                                <div class="col-sm-6">
                                     <input type="text" readonly class="form-control" id="gameid" value="">
                                 </div>
+                                <button class="btn btn-secondary col-sm-1" onclick="copyFunction()">Copy URL</button>
                             </div>
+                        </form>
+
+                        <div class="row input">
+                                <div class="col-md-1"> </div>
+                            <div class="col-md-4">  <input class="form-control align-items-center" id="user" type="text" placeholder="Please Enter Your User Name Here" value="">
+                                </div>
+                                <div class="col-md-2"> </div>
+                                    <div class="col-md-4"> <input class="form-control align-items-center" id="opponent" readonly type="text" placeholder="Opponent will appear here upon join" value="">
+                                        </div>
+                        </div>
+
+                    
                     </center>
                     <!-- <center><img src="Assets/Images/rpsls2.png"></center> -->
                     <br>
                 </div>
             </div>
 
+
             <div class="row input">
-                <div class="col-md-5" id="rulesSelected">
+                <div class="col-md-6" id="rulesSelected">
                     <div class="slider-for">
                         <div class="centeredimg">
-                            <img class="img-responsive" src="Assets/Images/rock_top.jpg">
+                            <img class="img-responsive centeredimg" src="Assets/Images/rock_top.jpg">
                         </div>
                         <div class="centeredimg">
-                            <img class="img-responsive" src="Assets/Images/paper_top.jpg">
+                            <img class="img-responsive centeredimg" src="Assets/Images/paper_top.jpg">
                         </div>
                         <div class="centeredimg">
-                            <img class="img-responsive" src="Assets/Images/scissors_top.jpg">
+                            <img class="img-responsive centeredimg" src="Assets/Images/scissors_top.jpg">
                         </div>
                         <div class="centeredimg">
-                            <img class="img-responsive" src="Assets/Images/lizard_top.jpg">
+                            <img class="img-responsive centeredimg" src="Assets/Images/lizard_top.jpg">
                         </div>
                         <div class="centeredimg">
-                            <img class="img-responsive" src="Assets/Images/spock_top.jpg">
+                            <img class="img-responsive centeredimg" src="Assets/Images/spock_top.jpg">
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2" id="gameInfo">
+                <!-- <div class="col-md-2" id="gameInfo">
                     <div id="formgather">
                         <form>
                             <div class="form-group">
@@ -72,8 +86,8 @@
                             </div>
                         </form>
                     </div>
-                </div>
-                <div class="col-md-5" id="opponentSelected">
+                </div> -->
+                <div class="col-md-6" id="opponentSelected">
                 </div>
             </div>
             <br>
@@ -99,7 +113,7 @@
                     <button type="button" class="btn btn-secondary btn-lg btn-block" id="playButton">Commit and Play</button>
                 </div>
                 <div class="col-md-1" id="EMPTYDIV">
-                    </div>
+                </div>
                 <div class="col-md-5" id="opponents">
 
                 </div>
