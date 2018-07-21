@@ -42,16 +42,24 @@ $(document).ready(function(){
       });
 
       if  (parsedUrl.searchParams.get("id") > 0) 
-      {        
+      {   
           console.log("invited to play game id: " + parsedUrl.searchParams.get("id"));
           console.log("you are player number: " + parsedUrl.searchParams.get("player"));
           player = parseInt(parsedUrl.searchParams.get("player"));
           gameidnum=parseInt(parsedUrl.searchParams.get("id")); 
+          opponent = decodeURIComponent(parsedUrl.searchParams.get("name"));
+          $("#gameid").attr("value",parsedUrl);
+
+          $('#opponentWelcomeModal').modal('show');  
+          $('#opponentWelcomeModal').on('shown.bs.modal', function (event) {
+            var modal = $(this);
+            modal.find('.modal-title').text('You have been invited to play by ' + opponent) ;
+          });
           inplay();
   }
   else {
       player=1;
-      dataRef.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
+        dataRef.ref('games//').orderByChild("gameid").limitToLast(1).on("child_added", function(snapshot) {
         console.log("firebase last game id is :" + snapshot.val().gameid);
         gameidnum=snapshot.val().gameid + 1;
         console.log("new game id will be: " + gameidnum);
@@ -62,7 +70,7 @@ $(document).ready(function(){
     var user;
     var recordeduser;
     var parsedUrl = new URL(window.location.href);
-    var gameidnum; 
+    var gameidnum =1;  /*initial game only*/
     var opponent = decodeURIComponent(parsedUrl.searchParams.get("name"));
     var dataRef =firebase.database();
 
@@ -82,43 +90,43 @@ $(document).ready(function(){
         // This line prevents the page from refreshing when a user hits "enter".
         event.preventDefault();
         // the one who invites will be player 1
-        gameinfo();
+        invite();
     });
 
-    var gameidnum=1;
+    var gameidnum;
     var newgameid;
     var player;
     var user;
 
 
-    function gameinfo() {
+    function invite() {
         
        
         console.log("ouch");
-        user = $("#user").val().trim();
-        console.log("submitted user" + user);
+        user = $(".userNameInput").val().trim();
+        console.log("submitted user " + user);
         localStorage.setItem("name", user);
         if (user == "") {
-             alert("You must first enter a user name to generate game URL or to play") ; 
+            //  alert("You must first enter a user name to generate game URL or to play") ; 
+             $('#exampleModal').modal('show');
              return;
         }
         localStorage.setItem("gameid", gameidnum);
         recordeduser=localStorage.getItem("name");
-        console.log("submitted user" + user);
-        console.log("recorded user" + recordeduser);
-        $('#user').attr("placeholder",user);
+        console.log("submitted user " + user);
+        console.log("recorded user " + recordeduser);
+        $(".userNameInput").attr("placeholder",user);
  
 
-        dataRef.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
-            // Change the HTML to reflect
+        dataRef.ref('games//').orderByChild("gameid").limitToLast(1).on("child_added", function(snapshot) {
             console.log("firebase last game id is :" + snapshot.val().gameid);
-            newgameid=snapshot.val().gameid + 1;
-            console.log("new game id will be: " + newgameid);
-            urlShare = window.location.href + "id=" + newgameid + "&player=2" + "&name=" + encodeURIComponent(user);
+            gameidnum=snapshot.val().gameid + 1;
+            console.log("new game id will be: " + gameidnum);
+            });   
+            urlShare = window.location.href + "?id=" + newgameid + "&player=2" + "&name=" + encodeURIComponent(user);
             $("#gameid").attr("value",urlShare);
-              });    
-
-          
+            createGameRecord(); 
+         
 
     };
 
@@ -142,20 +150,40 @@ $('.slider').on('beforeChange', function(event, slick, currentSlide, nextSlide){
 $(document).on("click", '#playButton', commit);
 
 function commit(){
-    user = $("#user").val().trim();
+    user = $(".userNameInput").val().trim();
     if (user == "" || user == null) {
-        alert("You must first enter a user name to generate game URL or to play") ; 
+        // alert("You must first enter a user name to generate game URL or to play") ; 
+        $('#exampleModal').modal('show');
         return;
    }
 
     console.log(playerSelection);
-    dataRef.ref(gameidnum).child(player).set({
-        played: playerSelection, 
-        playername: user, 
-        player: player,
-        gameid: gameidnum,
-        dateAdded: firebase.database.ServerValue.TIMESTAMP
-      });
+
+    var gamedata =  {
+        // player: player, 
+        //     playerdata : {
+                played: playerSelection, 
+                playername: user, 
+                gameid: 999,
+                dateAdded: firebase.database.ServerValue.TIMESTAMP
+    // }
+    }
+
+    console.log(gamedata);
+    var updates = {};
+    var testnum=104;
+    updates['games/' + testnum] = {player: player};
+    updates['games/' + gameidnum + '/player' + player] = gamedata;
+
+    return firebase.database().ref().update(updates);
+    
+    // dataRef.ref(gameidnum).child(player).set({
+    //     played: playerSelection, 
+    //     playername: user, 
+    //     player: player,
+    //     gameid: gameidnum,
+    //     dateAdded: firebase.database.ServerValue.TIMESTAMP
+    //   });
       gameidnum=+1;
       whoWon();
 
@@ -208,3 +236,48 @@ function whoWon() {
     });
 };
 
+
+
+$("#modalSave").on("click", function(event) {
+    user = $(".userNameInputModal").val().trim();
+    if (user == "" || user == null) {
+        // alert("You must first enter a user name to generate game URL or to play") ; 
+        $('#exampleModal').modal('show');
+    }
+       console.log(user + "saved as user name from modal");
+       $(".userNameInput").attr("placeholder",user);
+       $(".userNameInputModal").attr("placeholder",user);
+       $(".userNameInput").attr("value",user);
+       $(".userNameInputModal").attr("value",user);
+       invite();
+});
+
+$("#modalSaveInvited").on("click", function(event) {
+    user = $("#opponentNameResponse").val().trim();
+    console.log("test modal save invited");
+    if (user == "" || user == null) {
+        // alert("You must first enter a user name to generate game URL or to play") ; 
+        $('#opponentWelcomeModal').modal('show');
+    }
+       console.log(user + "saved as user name from modal");
+       $(".userNameInput").attr("placeholder",user);
+    //    $(".userNameInput").attr("placeholder","leo placeholder");
+       $(".userNameInputModal").attr("placeholder",user);
+       $(".userNameInput").attr("value",user);
+       $(".userNameInputModal").attr("value",user);
+});
+
+
+
+
+function createGameRecord(){
+   var gamedata =  {
+                id: gameidnum,
+                createdBy: user,
+                datecreated: firebase.database.ServerValue.TIMESTAMP
+    }
+
+    var updates = {};
+    updates['games/' + gameidnum] = gamedata;
+    return firebase.database().ref().update(updates);
+};
