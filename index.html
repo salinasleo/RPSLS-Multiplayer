@@ -39,8 +39,7 @@
                         <div class="row input">
                             <div class="col-md-1"> </div>
                             <div class="col-md-4">
-                                <input class="form-control align-items-center userNameInput" type="text" placeholder="Please Enter Your User Name Here"
-                                    value="">
+                                <input class="form-control align-items-center userNameInput" type="text" placeholder="Please Enter Your User Name Here" value="">
                             </div>
                             <div class="col-md-2"> </div>
                             <div class="col-md-4">
@@ -94,7 +93,7 @@
                 <div class="col-md-6" id="opponentSelected">
                 </div>
             </div>
-            <br>
+            <!-- <br> -->
             <div class="row input">
                 <div class="col-md-6 centeredimg" id="player1">
                     <div class="slider" id="selectedplay">
@@ -136,41 +135,55 @@
                         </div>
                         <div class="modal-body">
                             <div class="col-md-6">
-                                <input class="form-control align-items-center userNameInputModal" type="text" placeholder="User Name Here"
-                                    value="">
+                                <input class="form-control align-items-center userNameInputModal" type="text" placeholder="User Name Here" value="">
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" id ="modalSave" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                            <button type="button" id="modalSave" class="btn btn-primary" data-dismiss="modal">Save changes</button>
                         </div>
                     </div>
                 </div>
             </div>
 
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="opponentWelcomeModal" tabindex="-1" role="dialog" aria-labelledby="opponentWelcomeModal" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="opponentWelcomeModal"></h5>
-                                        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- Modal -->
+            <div class="modal fade" id="opponentWelcomeModal" tabindex="-1" role="dialog" aria-labelledby="opponentWelcomeModal" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="opponentWelcomeModal"></h5>
+                            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button> -->
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="col-md-6">
-                                            <input class="form-control align-items-center" id="opponentNameResponse" type="text" placeholder="Your User Name:"
-                                                value="">
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" id ="modalSaveInvited" class="btn btn-primary" data-dismiss="modal">Save changes</button>
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-md-6">
+                                <input class="form-control align-items-center" id="opponentNameResponse" type="text" placeholder="Your User Name:" value="">
                             </div>
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" id="modalSaveInvited" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+
+            <!-- Modal -->
+            <div class="modal fade" id="createGameFirstModal" tabindex="-1" role="dialog" aria-labelledby="createGameFirstModal" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createGameFirstModal">Please generate URL before making selection </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <!-- <div class="modal-body">
+                        </div> -->
+                    </div>
+                </div>
+            </div>
 
 
 
